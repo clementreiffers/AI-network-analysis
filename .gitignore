@@ -1,4 +1,6 @@
 .idea 
 *.csv
+*.xlsx
+*.png
 *.json
 data
