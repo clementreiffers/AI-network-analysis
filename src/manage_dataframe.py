@@ -1,7 +1,5 @@
 import pandas as pd
 from pandas import DataFrame
-import ramda as R
-
 
 """
 DELETIONS
@@ -20,17 +18,16 @@ def drop_duplicate_lines(df: DataFrame) -> DataFrame:
     return df.drop_duplicates()
 
 
-def clean_dataset(df: DataFrame) -> DataFrame:
-    return R.pipe(drop_unused_columns, drop_duplicate_lines)(df)
-
-
 """
 LOADINGS
 """
 
 
-def read_csv(filename: str):
-    return pd.read_csv(filename)
+def read_csv(nrows: int | None = None):
+    def read(filename: str):
+        return pd.read_csv(filename, nrows=nrows)
+
+    return read
 
 
 """
@@ -44,3 +41,12 @@ def df_to_csv(df: DataFrame, filename: str):
 
 def df_to_xlsx(data, filename: str):
     return pd.DataFrame(data).to_excel(filename, index=False)
+
+
+"""
+ENCODERS
+"""
+
+
+def df_dummies(df: DataFrame):
+    return pd.get_dummies(df)
