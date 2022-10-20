@@ -1,6 +1,6 @@
-from manage_ml import correlation_matrix, separate_and_random_forest
 from main_contants import RAW_CSV_FILENAME, FILENAME_CLEANED_DATA
 from manage_dataframe import df_to_csv, get_input, get_output, read_clean_csv
+from manage_ml import correlation_matrix, separate_and_random_forest
 
 if __name__ == "__main__":
     df = read_clean_csv(RAW_CSV_FILENAME, nrows=1000)

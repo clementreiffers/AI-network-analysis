@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error as mse
 from sklearn.model_selection import train_test_split
 
-from main_contants import SEED, RANDOM_FOREST_ESTIMATORS
+from main_contants import SEED, RANDOM_FOREST_ESTIMATORS, TARGET
 from manage_dataframe import df_to_csv, get_mask
 from manage_list import truncate
 
