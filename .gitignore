@@ -7,5 +7,5 @@
 *.json
 data
 
-*/**/__pychache__
+src/__pycache__
 __pychache__

@@ -3,6 +3,7 @@ from typing import Iterable
 import numpy as np
 import pandas as pd
 import ramda as R
+import seaborn as sns
 from pandas import DataFrame
 
 from main_contants import TARGET
@@ -42,7 +43,7 @@ SAVINGS
 
 
 def df_to_csv(df: DataFrame, filename: str):
-    return df.to_csv(filename, index=False)
+    return df.to_csv(filename, index=False, sep=";")
 
 
 def df_to_csv_curried(filename: str):
@@ -90,6 +91,10 @@ def get_output(df: DataFrame):
 
 def get_stats_from_dataframe(df: DataFrame):
     return df.describe()
+
+
+def pair_grid(df: DataFrame, col: list[str]):
+    return sns.PairGrid(df.loc[:, col])
 
 
 """
