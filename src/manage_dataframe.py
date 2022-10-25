@@ -93,8 +93,20 @@ def get_stats_from_dataframe(df: DataFrame):
     return df.describe()
 
 
-def pair_grid(df: DataFrame, col: list[str]):
-    return sns.PairGrid(df.loc[:, col])
+def get_pair_grid(df: DataFrame, col: list[str] | None = None):
+    return sns.PairGrid(df.loc[:, col] if col is not None else df)
+
+
+def get_df_len_key_value(df: DataFrame, key: str, value: str):
+    return len(df[df[key] == value])
+
+
+def get_dict_of_key_value_len(df: DataFrame, key: str, value: str):
+    return {"protocol_name": value, "nbr": get_df_len_key_value(df, key, value)}
+
+
+def get_list_of_dict_key_value_len(df: DataFrame, key: str):
+    return [get_dict_of_key_value_len(df, key, val) for val in df[key].unique()]
 
 
 """
