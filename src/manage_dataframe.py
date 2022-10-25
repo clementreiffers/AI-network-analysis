@@ -96,3 +96,7 @@ def get_input(df: DataFrame):
 
 def get_output(df: DataFrame):
     return df[TARGET]
+
+
+def get_stats_from_dataframe(df: DataFrame):
+    return df.describe()

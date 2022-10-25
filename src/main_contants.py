@@ -1,10 +1,10 @@
 """
 FILENAMES
 """
-
-RAW_CSV_FILENAME: str = "../data/Dataset-Unicauca-Version2-87Atts.csv"
-FILENAME_CLEANED_DATA: str = "../data/dataset_cleaned.csv"
-
+DATA_PATH: str = "../data"
+RAW_CSV_FILENAME: str = f"{DATA_PATH}/Dataset-Unicauca-Version2-87Atts.csv"
+FILENAME_CLEANED_DATA: str = f"{DATA_PATH}/dataset_cleaned.csv"
+STATISTICS_CSV: str = f"{DATA_PATH}/statistics.csv"
 """
 LISTS
 """
