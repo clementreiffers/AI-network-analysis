@@ -2,3 +2,6 @@
 *.csv
 *.json
 data
+
+*/**/__pychache__
+__pychache__
