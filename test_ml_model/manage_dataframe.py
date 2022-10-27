@@ -117,7 +117,6 @@ PIPES
 def clean_dataset(df: DataFrame) -> DataFrame:
     return R.pipe(
         drop_unused_columns,
-        drop_duplicate_lines,
         df_dummies,
     )(df)
 

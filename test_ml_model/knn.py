@@ -4,19 +4,13 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from manage_dataframe import read_csv
-from src.main_contants import RAW_CSV_FILENAME
+from constants import X_COL, TARGET
+from main_contants import RAW_CSV_FILENAME
+from manage_dataframe import read_clean_csv, read_csv, df_dummies
 
 
 def get_x_y(df):
-    x_col = [
-        "Source.Port",
-        "Destination.Port",
-        "Init_Win_bytes_forward",
-        "Fwd.Packets.s",
-    ]
-    target = "L7Protocol"
-    return df[x_col], df[target]
+    return df[X_COL], df[TARGET]
 
 
 df = read_csv(None)(RAW_CSV_FILENAME)
@@ -24,6 +18,8 @@ df = read_csv(None)(RAW_CSV_FILENAME)
 df = df.loc[df["ProtocolName"].isin(["AMAZON", "MICROSOFT", "YOUTUBE", "GMAIL"])]
 x, y = get_x_y(df)
 
+x = df_dummies(x)
+y = df_dummies(y)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,
