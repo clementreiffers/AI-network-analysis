@@ -1,4 +1,11 @@
 .idea 
+.vs
+
 *.csv
+*.xlsx
+*.png
 *.json
 data
+
+src/__pycache__
+__pychache__
