@@ -8,24 +8,74 @@ from src.main_contants import TARGET
 
 
 def base():
-    df = pd.read_csv('../data/dataset_clean.csv')
+    df = pd.read_csv("../data/dataset_clean.csv")
 
-    #list_protocol = ['AMAZON', 'YOUTUBE', 'MICROSOFT', 'GMAIL']
-    #list_protocol = ["AMAZON", "MICROSOFT", "YOUTUBE", "GMAIL", "WINDOWS_UPDATE", "SKYPE", "FACEBOOK", "DROPBOX"]
+    # list_protocol = ['AMAZON', 'YOUTUBE', 'MICROSOFT', 'GMAIL']
+    # list_protocol = ["AMAZON", "MICROSOFT", "YOUTUBE", "GMAIL", "WINDOWS_UPDATE", "SKYPE", "FACEBOOK", "DROPBOX"]
 
-    #df = df[df['ProtocolName'].isin(list_protocol)]
+    # df = df[df['ProtocolName'].isin(list_protocol)]
     df = df.drop(
-        ["ProtocolName", "Month", "Day", "Protocol", "ECE.Flag.Count", "RST.Flag.Count", "Active.Max", "Active.Min",
-         "Idle.Mean", "Idle.Max", "Active.Mean", "Idle.Std", "Bwd.Packet.Length.Min", "FIN.Flag.Count",
-         "Min.Packet.Length", "Idle.Min", "Active.Std", "URG.Flag.Count", "SYN.Flag.Count", "ACK.Flag.Count",
-         "Fwd.Packet.Length.Min", "Fwd.PSH.Flags", "PSH.Flag.Count", "Subflow.Fwd.Packets", "Total.Fwd.Packets",
-         "Subflow.Bwd.Packets", "Subflow.Bwd.Bytes", "Total.Length.of.Bwd.Packets", "Down.Up.Ratio",
-         "Bwd.Header.Length", "Packet.Length.Variance", "Packet.Length.Mean", "Subflow.Fwd.Bytes", "Max.Packet.Length",
-         "Packet.Length.Std", "min_seg_size_forward", "Fwd.IAT.Max", "Average.Packet.Size", "Flow.IAT.Mean",
-         "Flow.Packets.s", "Fwd.Packet.Length.Max", "act_data_pkt_fwd", "Fwd.Header.Length", "Fwd.Header.Length.1",
-         "Avg.Bwd.Segment.Size", "Bwd.Packet.Length.Min", "Total.Backward.Packets", "Bwd.Packet.Length.Max",
-         "Bwd.Packet.Length.Std", "Flow.IAT.Std", "Bwd.IAT.Min", "Fwd.IAT.Total", "Fwd.IAT.Std", "Flow.ID", "Source.IP",
-         "Destination.IP", "Bwd.Packet.Length.Mean"], axis=1)
+        [
+            "ProtocolName",
+            "Month",
+            "Day",
+            "Protocol",
+            "ECE.Flag.Count",
+            "RST.Flag.Count",
+            "Active.Max",
+            "Active.Min",
+            "Idle.Mean",
+            "Idle.Max",
+            "Active.Mean",
+            "Idle.Std",
+            "Bwd.Packet.Length.Min",
+            "FIN.Flag.Count",
+            "Min.Packet.Length",
+            "Idle.Min",
+            "Active.Std",
+            "URG.Flag.Count",
+            "SYN.Flag.Count",
+            "ACK.Flag.Count",
+            "Fwd.Packet.Length.Min",
+            "Fwd.PSH.Flags",
+            "PSH.Flag.Count",
+            "Subflow.Fwd.Packets",
+            "Total.Fwd.Packets",
+            "Subflow.Bwd.Packets",
+            "Subflow.Bwd.Bytes",
+            "Total.Length.of.Bwd.Packets",
+            "Down.Up.Ratio",
+            "Bwd.Header.Length",
+            "Packet.Length.Variance",
+            "Packet.Length.Mean",
+            "Subflow.Fwd.Bytes",
+            "Max.Packet.Length",
+            "Packet.Length.Std",
+            "min_seg_size_forward",
+            "Fwd.IAT.Max",
+            "Average.Packet.Size",
+            "Flow.IAT.Mean",
+            "Flow.Packets.s",
+            "Fwd.Packet.Length.Max",
+            "act_data_pkt_fwd",
+            "Fwd.Header.Length",
+            "Fwd.Header.Length.1",
+            "Avg.Bwd.Segment.Size",
+            "Bwd.Packet.Length.Min",
+            "Total.Backward.Packets",
+            "Bwd.Packet.Length.Max",
+            "Bwd.Packet.Length.Std",
+            "Flow.IAT.Std",
+            "Bwd.IAT.Min",
+            "Fwd.IAT.Total",
+            "Fwd.IAT.Std",
+            "Flow.ID",
+            "Source.IP",
+            "Destination.IP",
+            "Bwd.Packet.Length.Mean",
+        ],
+        axis=1,
+    )
     col = df.columns
 
     y = df[TARGET]
@@ -35,9 +85,7 @@ def base():
 
 y, X = base()
 
-X_train, X_test, y_train, y_test = train_test_split(X, y,
-                                                    test_size=0.2,
-                                                    random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 # dt = DecisionTreeClassifier(max_depth=1, random_state=1)
 # dt = DecisionTreeClassifier(random_state=42,max_depth=3, min_samples_leaf=5)
 
