@@ -1,8 +1,5 @@
 # network_analysis
 
-the aim of this repo is to create an AI able to decode encrypted network frames.
-
-
 ## how to use 
 
 ### install dependencies
