@@ -1,13 +1,10 @@
 import pandas as pd
 from keras import Sequential
 from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras.layers import Dense, Dropout, BatchNormalization
+from keras.layers import Dense, Dropout
 from keras.utils import to_categorical
 from matplotlib import pyplot as plt
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from src.main_contants import TARGET

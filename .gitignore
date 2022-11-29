@@ -6,6 +6,9 @@
 *.png
 *.json
 data
+*.hdf5
 
-src/__pycache__
-__pychache__
+**/__pycache__
+
+
+venv
