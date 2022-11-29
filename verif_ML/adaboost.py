@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -22,8 +21,6 @@ df_reduce = df_select[(df_select['ProtocolName'] == 'AMAZON') | (df_select['Prot
             df_select['ProtocolName'] == 'MICROSOFT') | (df_select['ProtocolName'] == 'GMAIL')]
 
 df_encode = df_reduce.copy()
-
-print(df_encode.columns)
 
 y = df_encode['L7Protocol']
 X = df_encode.drop(['ProtocolName',"L7Protocol"], axis=1)

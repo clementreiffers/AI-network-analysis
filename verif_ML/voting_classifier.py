@@ -26,7 +26,6 @@ df_reduce = df_select[(df_select['ProtocolName'] == 'AMAZON') | (df_select['Prot
 
 df_encode = df_reduce.copy()
 
-print(df_encode.columns)
 
 y = df_encode['L7Protocol']
 X = df_encode.drop(['ProtocolName',"L7Protocol"], axis=1)
