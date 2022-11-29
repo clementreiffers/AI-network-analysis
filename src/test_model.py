@@ -14,31 +14,20 @@ from src.main_contants import TARGET
 
 
 def get_x_y():
-    df = pd.read_csv("../data/Dataset-Unicauca-Version2-87Atts.csv")
-    x_col = [
-        "Source.Port",
-        "Destination.Port",
-        "Flow.Duration",
-        "Total.Length.of.Fwd.Packets",
-        "Fwd.Packet.Length.Mean",
-        "Fwd.Packet.Length.Std",
-        "Flow.Bytes.s",
-        "Flow.IAT.Max",
-        "Flow.IAT.Min",
-        "Fwd.IAT.Mean",
-        "Fwd.IAT.Min",
-        "Bwd.IAT.Total",
-        "Bwd.IAT.Mean",
-        "Bwd.IAT.Std",
-        "Bwd.IAT.Max",
-        "Fwd.Packets.s",
-        "Bwd.Packets.s",
-        "Avg.Fwd.Segment.Size",
-        "Init_Win_bytes_forward",
-        "Init_Win_bytes_backward",
-        # "L7Protocol",
-    ]
-    return df[x_col], df[TARGET]
+    df = pd.read_csv("../data/dataset_clean.csv").drop(
+        [
+            "Source.Port",
+            "Destination.Port",
+            "Protocol",
+            "Flow.ID",
+            "Source.IP",
+            "Destination.IP",
+            "ProtocolName",
+            "Timestamp",
+        ],
+        axis=1,
+    )
+    return df.copy().drop(TARGET, axis=1), df[TARGET]
 
 
 def create_model_from_layers(layers, mod):
@@ -50,16 +39,10 @@ def create_model_from_layers(layers, mod):
 def get_dl_model(x, y):
     layers = [
         Dense(32, input_shape=(len(x[0]),), activation="relu"),
-        BatchNormalization(),
         Dense(64, activation="relu"),
-        BatchNormalization(),
         Dense(128, activation="relu"),
-        BatchNormalization(),
         Dense(256, activation="relu"),
-        BatchNormalization(),
-        Dense(512, activation="tanh"),
-        BatchNormalization(),
-        Dropout(0.20),
+        Dropout(0.50),
         Dense(len(y[0]), activation="softmax"),
     ]
 
