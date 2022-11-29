@@ -1,4 +1,9 @@
 import pandas as pd
+from keras import Sequential
+from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.layers import Dense, Dropout, BatchNormalization
+from keras.utils import to_categorical
+from matplotlib import pyplot as plt
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -13,30 +18,66 @@ def get_x_y():
     x_col = [
         "Source.Port",
         "Destination.Port",
-        "Init_Win_bytes_forward",
-        "Fwd.Packets.s",
-        "Init_Win_bytes_backward",
-        "Bwd.Packets.s",
-        "Flow.Bytes.s",
-        "Avg.Fwd.Segment.Size",
+        "Flow.Duration",
+        "Total.Length.of.Fwd.Packets",
+        "Fwd.Packet.Length.Mean",
         "Fwd.Packet.Length.Std",
+        "Flow.Bytes.s",
         "Flow.IAT.Max",
         "Flow.IAT.Min",
-        "Bwd.IAT.Total",
         "Fwd.IAT.Mean",
+        "Fwd.IAT.Min",
+        "Bwd.IAT.Total",
+        "Bwd.IAT.Mean",
         "Bwd.IAT.Std",
         "Bwd.IAT.Max",
-        "Bwd.IAT.Mean",
-        "Total.Length.of.Fwd.Packets",
-        "Fwd.IAT.Total",
-        "act_data_pkt_fwd",
-        "Fwd.Packet.Length.Max",
+        "Fwd.Packets.s",
+        "Bwd.Packets.s",
+        "Avg.Fwd.Segment.Size",
+        "Init_Win_bytes_forward",
+        "Init_Win_bytes_backward",
+        # "L7Protocol",
     ]
     return df[x_col], df[TARGET]
 
 
+def create_model_from_layers(layers, mod):
+    for layer in layers:
+        mod.add(layer)
+    return mod
+
+
+def get_dl_model(x, y):
+    layers = [
+        Dense(32, input_shape=(len(x[0]),), activation="relu"),
+        BatchNormalization(),
+        Dense(64, activation="relu"),
+        BatchNormalization(),
+        Dense(128, activation="relu"),
+        BatchNormalization(),
+        Dense(256, activation="relu"),
+        BatchNormalization(),
+        Dense(512, activation="tanh"),
+        BatchNormalization(),
+        Dropout(0.20),
+        Dense(len(y[0]), activation="softmax"),
+    ]
+
+    model = create_model_from_layers(layers, Sequential())
+    model.compile(
+        loss="categorical_crossentropy",
+        metrics=["accuracy"],
+        optimizer="adam",
+    )
+
+    return model
+
+
 if __name__ == "__main__":
     x, y = get_x_y()
+
+    x = StandardScaler().fit_transform(x)
+    y = to_categorical(y)
 
     x_train, x_test, y_train, y_test = train_test_split(
         x, y, test_size=0.2, random_state=1
@@ -57,9 +98,35 @@ if __name__ == "__main__":
     # model = make_pipeline(StandardScaler(), SGDClassifier(loss="hinge", penalty="l2"))
     # model = make_pipeline(StandardScaler(), GaussianNB())
 
-    model = make_pipeline(StandardScaler(), LinearDiscriminantAnalysis())
+    # model = make_pipeline(StandardScaler(), LinearDiscriminantAnalysis())
+    #
+    # model.fit(x_train, y_train)
+    # y_pred = model.predict(x_test)
+    # acc_dt = accuracy_score(y_test, y_pred)
+    # print("df test accuracy : {:.4f}".format(acc_dt))
+    model = get_dl_model(x, y)
 
-    model.fit(x_train, y_train)
-    y_pred = model.predict(x_test)
-    acc_dt = accuracy_score(y_test, y_pred)
-    print("df test accuracy : {:.4f}".format(acc_dt))
+    callbacks = [
+        EarlyStopping(monitor="accuracy", patience=10),
+        ModelCheckpoint("out/best.hdf5"),
+    ]
+
+    history = model.fit(
+        x_train,
+        y_train,
+        validation_data=(x_test, y_test),
+        callbacks=callbacks,
+        epochs=1000,
+    )
+    loss, acc = model.evaluate(x_test, y_test)
+    print(f"loss:{loss}\nacc:{acc}")
+
+    plt.plot(history.history["loss"])
+    plt.plot(history.history["val_loss"])
+    plt.legend(["train", "test"])
+    plt.show()
+
+    plt.plot(history.history["accuracy"])
+    plt.plot(history.history["val_accuracy"])
+    plt.legend(["train", "test"])
+    plt.show()
