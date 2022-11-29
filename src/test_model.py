@@ -1,97 +1,43 @@
 import pandas as pd
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.kernel_ridge import KernelRidge
-from sklearn.linear_model import SGDClassifier, ElasticNet, BayesianRidge
-from sklearn.multiclass import OutputCodeClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.neural_network import MLPClassifier
-from sklearn.pipeline import make_pipeline
-from sklearn.svm import SVC, LinearSVC
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 from src.main_contants import TARGET
 
 
 def base():
     df = pd.read_csv("../data/dataset_clean.csv")
-    # list_protocol = ['AMAZON', 'YOUTUBE', 'MICROSOFT', 'GMAIL']
-    # list_protocol = ["AMAZON", "MICROSOFT", "YOUTUBE", "GMAIL", "WINDOWS_UPDATE", "SKYPE", "FACEBOOK", "DROPBOX"]
-    # df = df[df['ProtocolName'].isin(list_protocol)]
-    df = df.drop(
-        [
-            "ProtocolName",
-            "Month",
-            "Day",
-            "Protocol",
-            "ECE.Flag.Count",
-            "RST.Flag.Count",
-            "Active.Max",
-            "Active.Min",
-            "Idle.Mean",
-            "Idle.Max",
-            "Active.Mean",
-            "Idle.Std",
-            "Bwd.Packet.Length.Min",
-            "FIN.Flag.Count",
-            "Min.Packet.Length",
-            "Idle.Min",
-            "Active.Std",
-            "URG.Flag.Count",
-            "SYN.Flag.Count",
-            "ACK.Flag.Count",
-            "Fwd.Packet.Length.Min",
-            "Fwd.PSH.Flags",
-            "PSH.Flag.Count",
-            "Subflow.Fwd.Packets",
-            "Total.Fwd.Packets",
-            "Subflow.Bwd.Packets",
-            "Subflow.Bwd.Bytes",
-            "Total.Length.of.Bwd.Packets",
-            "Down.Up.Ratio",
-            "Bwd.Header.Length",
-            "Packet.Length.Variance",
-            "Packet.Length.Mean",
-            "Subflow.Fwd.Bytes",
-            "Max.Packet.Length",
-            "Packet.Length.Std",
-            "min_seg_size_forward",
-            "Fwd.IAT.Max",
-            "Average.Packet.Size",
-            "Flow.IAT.Mean",
-            "Flow.Packets.s",
-            "Fwd.Packet.Length.Max",
-            "act_data_pkt_fwd",
-            "Fwd.Header.Length",
-            "Fwd.Header.Length.1",
-            "Avg.Bwd.Segment.Size",
-            "Bwd.Packet.Length.Min",
-            "Total.Backward.Packets",
-            "Bwd.Packet.Length.Max",
-            "Bwd.Packet.Length.Std",
-            "Flow.IAT.Std",
-            "Bwd.IAT.Min",
-            "Fwd.IAT.Total",
-            "Fwd.IAT.Std",
-            "Flow.ID",
-            "Source.IP",
-            "Destination.IP",
-            "Bwd.Packet.Length.Mean",
-        ],
-        axis=1,
-    )
-    col = df.columns
-
-    y = df[TARGET]
-    X = df[col]
-    return y, X
+    x_col = [
+        "Source.Port",
+        "Destination.Port",
+        "Init_Win_bytes_forward",
+        "Fwd.Packets.s",
+        "Init_Win_bytes_backward",
+        "Bwd.Packets.s",
+        "Flow.Bytes.s",
+        "Avg.Fwd.Segment.Size",
+        "Fwd.Packet.Length.Std",
+        "Flow.IAT.Max",
+        "Flow.IAT.Min",
+        "Bwd.IAT.Total",
+        "Fwd.IAT.Mean",
+        "Bwd.IAT.Std",
+        "Bwd.IAT.Max",
+        "Bwd.IAT.Mean",
+        "Total.Length.of.Fwd.Packets",
+        "Fwd.IAT.Total",
+        "act_data_pkt_fwd",
+        "Fwd.Packet.Length.Max",
+    ]
+    return df[TARGET], df[x_col]
 
 
 y, X = base()
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 """
 sc = StandardScaler()
@@ -111,7 +57,7 @@ model = GaussianNB()
 
 model = make_pipeline(StandardScaler(), LinearDiscriminantAnalysis())
 
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
+model.fit(x_train, y_train)
+y_pred = model.predict(x_test)
 acc_dt = accuracy_score(y_test, y_pred)
 print("df test accuracy : {:.4f}".format(acc_dt))
