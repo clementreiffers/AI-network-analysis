@@ -1,11 +1,26 @@
 # network_analysis
 
-the purpose of this repo is to create an AI able to decode encrypte network frames.
+## how to use 
 
+### install dependencies
+
+run `python3 -m pip install -r requirements.txt`. All libraries used are referenced 
+in this file, and they will be installed one by one.
+
+### prepare data
+
+download the csv file named "Dataset-Unicauca-Version2-87Atts.csv", and then :
+-   create a new directory near to src directory named "data"
+-   move the csv file inside the directory created above 
+
+### launch the program
+
+once you placed correctly the data, and installed the dependencies (see above), you can type in the terminal:
+`python3 src/main.py`
 
 ## contributors
 
-github profiles :
+GitHub profiles :
 
 Clément Reiffers : 
 

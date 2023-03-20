@@ -1,4 +1,14 @@
 .idea 
+.vs
+
 *.csv
+*.xlsx
+*.png
 *.json
 data
+*.hdf5
+
+**/__pycache__
+
+
+venv
